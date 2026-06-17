@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Start up the event listeners once the page loads
-    initTabSystemLogic();
-    initGenreFilterSystemLogic();
+    // Fire routing logic modules on system start
+    setupNavigationTabs();
+    setupGenreVibeFilters();
 });
 
-// --- CODE PART 1: SMOOTH NAVIGATION TAB CHANGER ---
-function initTabSystemLogic() {
+// --- COMPONENT 1: WORKING DYNAMIC TAB TOGGLE HANDLERS ---
+function setupNavigationTabs() {
     const bookTabItem = document.getElementById("tab-books");
     const filmTabItem = document.getElementById("tab-films");
 
@@ -13,7 +13,7 @@ function initTabSystemLogic() {
     const filmPageContainer = document.getElementById("page-films");
 
     if (bookTabItem && filmTabItem) {
-        // When you click on the Books Tab
+        // Books navigation focus trigger
         bookTabItem.addEventListener("click", () => {
             bookTabItem.classList.add("active-tab");
             filmTabItem.classList.remove("active-tab");
@@ -21,10 +21,10 @@ function initTabSystemLogic() {
             bookPageContainer.classList.add("active-page");
             filmPageContainer.classList.remove("active-page");
 
-            resetCardDisplayFiltersOnSwap();
+            resetDisplayFiltersOnSwap();
         });
 
-        // When you click on the Films Tab
+        // Films navigation focus trigger
         filmTabItem.addEventListener("click", () => {
             filmTabItem.classList.add("active-tab");
             bookTabItem.classList.remove("active-tab");
@@ -32,36 +32,33 @@ function initTabSystemLogic() {
             filmPageContainer.classList.add("active-page");
             bookPageContainer.classList.remove("active-page");
 
-            resetCardDisplayFiltersOnSwap();
+            resetDisplayFiltersOnSwap();
         });
     }
 }
 
-// --- CODE PART 2: INTERACTIVE LIVE GENRE VIBE FILTER ---
-function initGenreFilterSystemLogic() {
-    const genreButtonsList = document.querySelectorAll(".filter-container .filter-btn");
+// --- COMPONENT 2: INTERACTIVE LIVE GENRE FILTERS ---
+function setupGenreVibeFilters() {
+    const filterButtons = document.querySelectorAll(".filter-container .filter-btn");
 
-    genreButtonsList.forEach(button => {
+    filterButtons.forEach(button => {
         button.addEventListener("click", () => {
-            // Remove the neon pink highlight from all filter buttons
-            genreButtonsList.forEach(btn => btn.classList.remove("active-filter"));
-            // Highlight only the button you just clicked
+            // Drop highlighting states from sibling elements inside row
+            filterButtons.forEach(btn => btn.classList.remove("active-filter"));
             button.classList.add("active-filter");
 
-            // Read the custom data-genre label from the HTML code
+            // Extract target data label parameter attribute
             const selectedGenreFilter = button.getAttribute("data-genre");
 
-            // Look up ONLY the tab page currently visible on your screen
+            // Locate active tab space layout container strictly to avoid faults
             const currentActivePanel = document.querySelector(".page-content.active-page");
             if (!currentActivePanel) return;
 
-            // Target exclusively the cards inside that active page view area
             const localTargetCards = currentActivePanel.querySelectorAll(".item-card");
 
             localTargetCards.forEach(card => {
                 const itemDataGenre = card.getAttribute("data-genre");
 
-                // If "Show All" is clicked, or the genre matches perfectly, show it. Otherwise, hide it.
                 if (selectedGenreFilter === "all" || itemDataGenre === selectedGenreFilter) {
                     card.classList.remove("hidden-card");
                 } else {
@@ -72,13 +69,13 @@ function initGenreFilterSystemLogic() {
     });
 }
 
-// --- CODE PART 3: AUTOMATIC RESET UTILITY ON TAB HOPPING ---
-function resetCardDisplayFiltersOnSwap() {
-    // Show every single card across all tabs again so they aren't stuck hidden
+// --- COMPONENT 3: RE-RENDER AND RE-ALIGN ACTION UTILITY ---
+function resetDisplayFiltersOnSwap() {
+    // Drop hidden CSS layout tags across every panel item layout block
     const globalCards = document.querySelectorAll(".item-card");
     globalCards.forEach(card => card.classList.remove("hidden-card"));
 
-    // Reset the vibe filter highlight look back to the main global default "Show All" button
+    // Shift focus class back to the global default "Show All" element controller
     const totalFilterButtons = document.querySelectorAll(".filter-container .filter-btn");
     totalFilterButtons.forEach(btn => btn.classList.remove("active-filter"));
 
