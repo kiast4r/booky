@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>booky // encounter your next fave</title>
+    <!-- Google Fonts for Y2K Aesthetic -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Fredoka:wght@300..700&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Y2K TROPICAL THEME CONFIG --- */
+        :root {
+            --bg-color: #0df0ff; /* Cyber Cyan */
+            --panel-bg: #ffe3f1; /* Pastel Hibiscus Pink */
+            --accent-pink: #ff007f; /* Hot Pink */
+            --accent-lime: #bfff00; /* Neon Lime */
+            --text-dark: #1a0033; /* Deep Cyber Purple */
+            --card-bg: #ffffff;
+            --border-style: 3px solid var(--text-dark);
+            --y2k-shadow: 5px 5px 0px var(--text-dark);
+            --y2k-shadow-hover: 2px 2px 0px var(--text-dark);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(var(--accent-lime) 15%, transparent 16%),
+                radial-gradient(var(--accent-pink) 15%, transparent 16%);
+            background-size: 60px 60px;
+            background-position: 0 0, 30px 30px;
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-dark);
+            padding: 20px;
+        }
+
+        /* --- CONTAINER & HEADER --- */
+        .window {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--panel-bg);
+            border: var(--border-style);
+            box-shadow: 10px 10px 0px var(--text-dark);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        /* Y2K Title Bar */
+        .title-bar {
+            background: var(--accent-pink);
+            padding: 10px 20px;
+            border-bottom: var(--border-style);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .title-bar .logo {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.8rem;
+            color: white;
+            text-shadow: 3px 3px 0px var(--text-dark);
+            letter-spacing: 1px;
+        }
+
+        .title-controls .dot {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--accent-lime);
+            border: 2px solid var(--text-dark);
+            margin-left: 5px;
+        }
+
+        /* --- TAB NAVIGATION SYSTEM --- */
+        .nav-tabs {
+            display: flex;
+            background: #fff;
+            border-bottom: var(--border-style);
+            list-style: none;
+        }
+
+        .nav-tabs li {
+            flex: 1;
+            text-align: center;
+        }
+
+        .nav-tabs button {
+            width: 100%;
+            padding: 15px;
+            background: transparent;
+            border: none;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: all 0.1s ease;
+        }
+
+        .nav-tabs button:hover {
+            background: #fff0f7;
+        }
+
+        .nav-tabs li.active-tab button {
+            background: var(--accent-lime);
+            border-bottom: none;
+            font-size: 1.3rem;
+            text-shadow: 1px 1px 0px #fff;
+        }
+
+        /* Make sure inactive tab elements have clean vertical dividers */
+        .nav-tabs li:not(:last-child) {
+            border-right: var(--border-style);
+        }
+
+        /* --- HERO BANNER --- */
+        .hero {
+            background: linear-gradient(135deg, rgba(255,0,127,0.8), rgba(191,255,0,0.8)), 
+                        url('https://unsplash.com');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: multiply;
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: var(--border-style);
+        }
+
+        .hero h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 3rem;
+            color: white;
+            text-shadow: 4px 4px 0px var(--text-dark);
+            line-height: 1.2;
+        }
+
+        /* --- INTRO SECTION --- */
+        .intro-box {
+            padding: 30px;
+            text-align: center;
+            background: white;
+            border-bottom: var(--border-style);
+        }
+
+        .intro-box h2 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .intro-box p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        /* --- PAGE CONTENT HANDLING --- */
+        .page-content {
+            display: none; /* Hidden by default, toggled via JS */
+            padding: 30px 20px;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .page-content.active-page {
+            display: flex; /* Shown when page matches active tab */
+        }
+
+        /* --- ITEMS CARDS (BOOKS & MOVIES) --- */
+        .item-card {
+            background: var(--card-bg);
+            border: var(--border-style);
+            box-shadow: var(--y2k-shadow);
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .item-card:hover {
+            transform: translate(3px, 3px);
+            box-shadow: var(--y2k-shadow-hover);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            border-bottom: 2px dashed var(--accent-pink);
+            padding-bottom: 10px;
+        }
+
+        .item-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.5rem;
+            color: var(--accent-pink);
+        }
+
+        .item-sub {
+            font-size: 1rem;
+            font-style: italic;
+            color: #660066;
+        }
+
+        .rating-badge {
+            background: var(--accent-lime);
+            padding: 5px 10px;
+            border: 2px solid var(--text-dark);
+            font-weight: bold;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .body-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .meta-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .tag {
+            background: #eee;
+            padding: 2px 8px;
+            border: 1px solid var(--text-dark);
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--text-dark);
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Fixes */
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2rem; }
+            body { padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="window">
+        <!-- Top Title Bar -->
+        <div class="title-bar">
+            <div class="logo">★ booky ★</div>
+            <div class="title-controls">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+
+        <!-- TABS NAV -->
+        <ul class="nav-tabs">
+            <li id="tab-books" class="active-tab"><button onclick="switchTab('books')">📖 Books</button></li>
+            <li id="tab-films"><button onclick="switchTab('films')">🎬 Films</button></li>
+        </ul>
+
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1>Encounter your new favourite book or even movie</h1>
+        </div>
+
+        <!-- Intro Text Box -->
+        <div class="intro-box">
+            <h2>Wondering what to read or watch next?</h2>
+            <p>We've got you, our website is the perfect place to meet your new favourite book! Or even a film that you'll love, so don't be curious and jump into our world of fun and entertainment! ✨</p>
+        </div>
+
+
+        <!-- ================= BOOKS PAGE ================= -->
+        <div id="page-books" class="page-content active-page">
+            
+            <!-- Book 1 -->
+            <div class="item-card">
+                <div class="card-header">
+                    <div>
+                        <div class="item-title">The Seven Husbands of Evelyn Hugo</div>
+                        <div class="item-sub">by Taylor Jenkins Reid</div>
+                    </div>
+                    <div class="rating-badge">⭐⭐⭐⭐⭐ 5/5</div>
+                </div>
+                <div class="body-text">
+                    Okay, I literally could not put this down. I stayed up until 3 AM finishing it and my eyes were swollen from crying. Evelyn is such a messy, complex, and completely mesmerizing character. You expect a glamorous Hollywood story, but it cuts way deeper into identity, sacrifice, and what it actually costs to protect the people you love. The plot twist at the end? Brilliantly executed. Total masterpiece.
+                </div>
+                <div class="meta-footer">
+                    <span>Reviewed by: @clara_reads</span>
