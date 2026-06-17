@@ -5,11 +5,293 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>booky // anushkareads</title>
     <!-- Google Fonts for Y2K Aesthetic -->
-    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Fredoka:wght@300..700&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
-    <!-- Link to external styling file -->
-    <link rel="stylesheet" href="style.css">
+    <link href="https://googleapis.com" rel="stylesheet">
+    
+    <style>
+        /* --- Y2K TROPICAL THEME CONFIG --- */
+        :root {
+            --bg-color: #0df0ff; /* Cyber Cyan */
+            --panel-bg: #ffe3f1; /* Pastel Hibiscus Pink */
+            --accent-pink: #ff007f; /* Hot Pink */
+            --accent-lime: #bfff00; /* Neon Lime */
+            --text-dark: #1a0033; /* Deep Cyber Purple */
+            --card-bg: #ffffff;
+            --border-style: 3px solid var(--text-dark);
+            --y2k-shadow: 5px 5px 0px var(--text-dark);
+            --y2k-shadow-hover: 2px 2px 0px var(--text-dark);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(var(--accent-lime) 15%, transparent 16%),
+                radial-gradient(var(--accent-pink) 15%, transparent 16%);
+            background-size: 60px 60px;
+            background-position: 0 0, 30px 30px;
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-dark);
+            padding: 20px;
+            cursor: url('https://icons8.com'), auto;
+        }
+
+        /* Custom interactive state pointers */
+        button, a, .filter-btn, .tab-item button {
+            cursor: url('https://icons8.com'), pointer !important;
+        }
+
+        /* --- CONTAINER & HEADER --- */
+        .window {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--panel-bg);
+            border: var(--border-style);
+            box-shadow: 10px 10px 0px var(--text-dark);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .title-bar {
+            background: var(--accent-pink);
+            padding: 10px 20px;
+            border-bottom: var(--border-style);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .title-bar .logo {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.6rem;
+            color: white;
+            text-shadow: 3px 3px 0px var(--text-dark);
+            letter-spacing: 1px;
+        }
+
+        .title-controls .dot {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--accent-lime);
+            border: 2px solid var(--text-dark);
+            margin-left: 5px;
+        }
+
+        /* --- TABS SYSTEM --- */
+        .nav-tabs {
+            display: flex;
+            background: #fff;
+            border-bottom: var(--border-style);
+            list-style: none;
+        }
+
+        .nav-tabs li {
+            flex: 1;
+            text-align: center;
+        }
+
+        .nav-tabs button {
+            width: 100%;
+            padding: 15px;
+            background: transparent;
+            border: none;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+
+        .nav-tabs li.active-tab button {
+            background: var(--accent-lime);
+            font-size: 1.3rem;
+            text-shadow: 1px 1px 0px #fff;
+        }
+
+        .nav-tabs li:not(:last-child) {
+            border-right: var(--border-style);
+        }
+
+        /* --- HERO & INTERNALS --- */
+        .hero {
+            background: linear-gradient(135deg, rgba(255,0,127,0.8), rgba(191,255,0,0.8)), 
+                        url('https://unsplash.com');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: multiply;
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: var(--border-style);
+        }
+
+        .hero h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 3rem;
+            color: white;
+            text-shadow: 4px 4px 0px var(--text-dark);
+            line-height: 1.2;
+        }
+
+        .intro-box {
+            padding: 30px;
+            text-align: center;
+            background: white;
+            border-bottom: var(--border-style);
+        }
+
+        .intro-box h2 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .intro-box p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.5;
+        }
+
+        /* --- LIVE FILTERS CONTROLS --- */
+        .filter-container {
+            background: #fff;
+            padding: 12px 20px;
+            border-bottom: var(--border-style);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-label {
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .filter-btn {
+            background: white;
+            border: 2px solid var(--text-dark);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            box-shadow: 2px 2px 0px var(--text-dark);
+            transition: all 0.1s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active-filter {
+            background: var(--accent-pink);
+            color: white;
+            transform: translate(1px, 1px);
+            box-shadow: 1px 1px 0px var(--text-dark);
+        }
+
+        /* --- CONTENT CARD VIEWS --- */
+        .page-content {
+            display: none; 
+            padding: 30px 20px;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .page-content.active-page {
+            display: flex; 
+        }
+
+        .item-card {
+            background: var(--card-bg);
+            border: var(--border-style);
+            box-shadow: var(--y2k-shadow);
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .item-card.hidden-card {
+            display: none !important;
+        }
+
+        .item-card:hover {
+            transform: translate(3px, 3px);
+            box-shadow: var(--y2k-shadow-hover);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            border-bottom: 2px dashed var(--accent-pink);
+            padding-bottom: 10px;
+        }
+
+        .item-title {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.5rem;
+            color: var(--accent-pink);
+        }
+
+        .item-sub {
+            font-size: 1rem;
+            font-style: italic;
+            color: #660066;
+        }
+
+        .rating-badge {
+            background: var(--accent-lime);
+            padding: 5px 10px;
+            border: 2px solid var(--text-dark);
+            font-weight: bold;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .body-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .meta-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .tag {
+            background: #eee;
+            padding: 2px 8px;
+            border: 1px solid var(--text-dark);
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: var(--text-dark);
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2rem; }
+            body { padding: 10px; }
+        }
+    </style>
 </head>
 <body>
 
@@ -26,8 +308,8 @@
 
         <!-- TABS NAV -->
         <ul class="nav-tabs">
-            <li id="tab-books" class="tab-item active-tab" data-target="books"><button>📖 Books</button></li>
-            <li id="tab-films" class="tab-item" data-target="films"><button>🎬 Films</button></li>
+            <li id="tab-books" class="tab-item active-tab" onclick="switchTab('books')"><button>📖 Books</button></li>
+            <li id="tab-films" class="tab-item" onclick="switchTab('films')"><button>🎬 Films</button></li>
         </ul>
 
         <!-- Hero Section -->
@@ -44,137 +326,3 @@
         <!-- LIVE GENRE FILTERS -->
         <div class="filter-container">
             <span class="filter-label">⚡ Vibe Filter:</span>
-            <button class="filter-btn active-filter" data-filter="all">Show All</button>
-            <button class="filter-btn" data-filter="Fiction">Fiction</button>
-            <button class="filter-btn" data-filter="Classic">Classic</button>
-            <button class="filter-btn" data-filter="Memoir">Memoir</button>
-            <button class="filter-btn" data-filter="Self-Help">Self-Help</button>
-            <button class="filter-btn" data-filter="Rom-Com">Rom-Com</button>
-            <button class="filter-btn" data-filter="Comedy">Comedy</button>
-        </div>
-
-        <!-- ================= BOOKS PAGE ================= -->
-        <div id="page-books" class="page-content active-page">
-            
-            <!-- Book 1 -->
-            <div class="item-card" data-genre="Fiction">
-                <div class="card-header">
-                    <div>
-                        <div class="item-title">The Seven Husbands of Evelyn Hugo</div>
-                        <div class="item-sub">by Taylor Jenkins Reid</div>
-                    </div>
-                    <div class="rating-badge">⭐⭐⭐⭐⭐ 5/5</div>
-                </div>
-                <div class="body-text">
-                    Okay, I literally could not put this down. I stayed up until 3 AM finishing it and my eyes were swollen from crying. Evelyn is such a messy, complex, and completely mesmerizing character. You expect a glamorous Hollywood story, but it cuts way deeper into identity, sacrifice, and what it actually costs to protect the people you love. The plot twist at the end? Brilliantly executed. Total masterpiece.
-                </div>
-                <div class="meta-footer">
-                    <span>Reviewed by: @clara_reads</span>
-                    <span class="tag">Fiction</span>
-                </div>
-            </div>
-
-            <!-- Book 2 -->
-            <div class="item-card" data-genre="Classic">
-                <div class="card-header">
-                    <div>
-                        <div class="item-title">A Tale of Two Cities</div>
-                        <div class="item-sub">by Charles Dickens</div>
-                    </div>
-                    <div class="rating-badge">⭐⭐⭐⭐★ 4/5</div>
-                </div>
-                <div class="body-text">
-                    It took me a couple of chapters to completely sink into the heavy 19th-century language rhythm, but wow, the payoff is immense. The historical atmosphere of London and Paris during the French Revolution feels incredibly intense. Sydney Carton's entire character redemption arc and that ultimate, iconic final sacrifice scene left me completely stunned. A timeless classic for a reason.
-                </div>
-                <div class="meta-footer">
-                    <span>Reviewed by: @vintage_pages</span>
-                    <span class="tag">Classic</span>
-                </div>
-            </div>
-
-            <!-- Book 3 -->
-            <div class="item-card" data-genre="Memoir">
-                <div class="card-header">
-                    <div>
-                        <div class="item-title">Everything I Know About Love</div>
-                        <div class="item-sub">by Dolly Alderton</div>
-                    </div>
-                    <div class="rating-badge">⭐⭐⭐⭐⭐ 5/5</div>
-                </div>
-                <div class="body-text">
-                    This felt like getting a warm, deeply comforting hug from a chaotic but wise older sister. Dolly captures the absolute disaster, hilarity, and sweet vulnerability of navigating your early twenties so perfectly. While it touches heavily on messy romantic relationships, the true beating heart of the book is her beautiful celebration of female friendships. I bought copies for all my best friends immediately.
-                </div>
-                <div class="meta-footer">
-                    <span>Reviewed by: @dolly_fan</span>
-                    <span class="tag">Memoir</span>
-                </div>
-            </div>
-
-            <!-- Book 4 -->
-            <div class="item-card" data-genre="Self-Help">
-                <div class="card-header">
-                    <div>
-                        <div class="item-title">The Power</div>
-                        <div class="item-sub">by Rhonda Byrne</div>
-                    </div>
-                    <div class="rating-badge">⭐⭐⭐★★ 3.5/5</div>
-                </div>
-                <div class="body-text">
-                    If you loved 'The Secret', this acts as a direct, punchy follow-up focusing entirely on the immense universal frequency of love and positive energy. While some points can sound incredibly repetitive and overly idealistic, the underlying practice of daily gratitude and shifting your mental outlook is genuinely life-changing if you put it into real action. Great for a quick morning motivation boost.
-                </div>
-                <div class="meta-footer">
-                    <span>Reviewed by: @mindful_vibe</span>
-                    <span class="tag">Self-Help</span>
-                </div>
-            </div>
-
-            <!-- Book 5 -->
-            <div class="item-card" data-genre="Fiction">
-                <div class="card-header">
-                    <div>
-                        <div class="item-title">Tomorrow, and Tomorrow, and Tomorrow</div>
-                        <div class="item-sub">by Gabrielle Zevin</div>
-                    </div>
-                    <div class="rating-badge">⭐⭐⭐⭐★ 4.5/5</div>
-                </div>
-                <div class="body-text">
-                    Even if you aren’t a gamer, please pick this up! It’s a beautifully complicated story about friendship, creativity, and grief spanning thirty years. Sam and Sadie’s relationship is frustratingly real—they love each other deeply but hurt each other constantly. The writing is incredibly vivid.
-                </div>
-                <div class="meta-footer">
-                    <span>Reviewed by: @pixel_pages</span>
-                    <span class="tag">Fiction</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- ================= FILMS PAGE ================= -->
-        <div id="page-films" class="page-content">
-            
-            <!-- Movie 1 -->
-            <div class="item-card" data-genre="Rom-Com">
-                <div class="card-header">
-                    <div>
-                        <div class="item-title">10 Things I Hate About You</div>
-                        <div class="item-sub">Directed by Gil Junger</div>
-                    </div>
-                </div>
-                <div class="body-text">
-                    A modernized adaptation of Shakespeare's 'The Taming of the Shrew' set in a late-90s high school. The story follows a sweet high school girl, Bianca, who cannot go out on a date until her abrasive, fiercely independent older sister, Kat, gets a boyfriend. In an effort to win Bianca over, a popular guy bribes a mysterious high school bad-boy, Patrick, to court Kat and win her heart.
-                </div>
-                <div class="meta-footer">
-                    <span>Year: 1999</span>
-                    <span class="tag">Rom-Com</span>
-                </div>
-            </div>
-
-            <!-- Movie 2 -->
-            <div class="item-card" data-genre="Comedy">
-                <div class="card-header">
-                    <div>
-                        <div class="item-title">She's the Man</div>
-                        <div class="item-sub">Directed by Andy Fickman</div>
-                    </div>
-                </div>
-                <div class="body-text">
-                    Inspired by Shakespeare's play 'Twelfth Night', this comedy follows teenager Viola Hastings. When her school cuts the girls' soccer team, she disguises herself as her twin brother, Sebastian, to take his place at an elite boarding school and join their boys' soccer squad. Complications ensue when she falls heavily in love with her handsome roommate, Duke, who is completely oblivious to her true identity.
-                </div>
